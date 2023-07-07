@@ -8,15 +8,24 @@ import {
   FormLabel,
   Link,
   Image,
+  IconButton,
+  InputGroup,
+  InputRightElement,
 } from "@chakra-ui/react";
 import DynamicAlert from "./dynamicAlert";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 const InstagramLogin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [alert, setAlert] = useState(false);
   const [message, setMessage] = useState("Incorrect username");
   const [type, setType] = useState("error");
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   async function loginUser() {
     try {
@@ -94,12 +103,24 @@ const InstagramLogin = () => {
       </FormControl>
       <FormControl width="100%" mb={4}>
         <FormLabel>Password</FormLabel>
-        <Input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <InputGroup>
+          <Input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <InputRightElement width="3rem">
+            <IconButton
+              aria-label={showPassword ? "Hide password" : "Show password"}
+              icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
+              onClick={handleTogglePassword}
+              h="1.75rem"
+              size="sm"
+              variant="ghost"
+            />
+          </InputRightElement>
+        </InputGroup>
       </FormControl>
       <Button
         colorScheme="blue"
@@ -109,7 +130,10 @@ const InstagramLogin = () => {
         mb={4}>
         Log In
       </Button>
-      <Link color="blue.500" fontSize="sm">
+      <Link
+        href="https://www.instagram.com/accounts/password/reset/"
+        color="blue.500"
+        fontSize="sm">
         Forgot your password?
       </Link>
     </Box>
